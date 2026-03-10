@@ -1,131 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automation Toolkit</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0a0a00;--panel:#0f1a0f;--border:rgba(0,255,65,.1);--accent:#00ff41;--accent2:#00cc33;--accent3:#39ff14;--green:#00ff41;--text:#ccffcc;--muted:#3a5c3a}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'JetBrains Mono',monospace;min-height:100vh}body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,rgba(0,255,65,.015) 0px,rgba(0,255,65,.015) 1px,transparent 1px,transparent 4px);pointer-events:none;z-index:999}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;background:rgba(13,20,36,.9);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);position:sticky;top:0;z-index:100}
-.brand{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1rem;background:linear-gradient(135deg,#00ff41,#00cc33);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px}
-.nav-back{font-size:.8rem;color:var(--muted);text-decoration:none;transition:color .2s}
-.nav-back:hover{color:var(--accent)}
-.hero{padding:60px 32px 40px;text-align:center}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,255,65,.08);border:1px solid rgba(0,255,65,.2);padding:6px 18px;border-radius:50px;font-size:.75rem;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:20px}
-.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:900;letter-spacing:2px;margin-bottom:12px;text-transform:uppercase}
-.hero h1 span{background:linear-gradient(135deg,#00ff41,#00cc33);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{color:var(--muted);font-size:1rem;max-width:500px;margin:0 auto;line-height:1.7}
-.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:20px;padding:0 32px 60px;max-width:1200px;margin:0 auto}
-.tool-card{background:var(--panel);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:border-color .2s,transform .2s}
-.tool-card:hover{border-color:rgba(0,255,65,.2);transform:translateY(-3px)}
-.tool-header{padding:24px 24px 0;display:flex;align-items:center;gap:14px;margin-bottom:16px}
-.tool-icon{font-size:2rem;width:52px;height:52px;display:flex;align-items:center;justify-content:center;background:rgba(0,255,65,.06);border:1px solid rgba(0,255,65,.12);border-radius:12px}
-.tool-info h3{font-size:1.1rem;font-weight:700;letter-spacing:-.3px}
-.tool-info p{font-size:.8rem;color:var(--muted);margin-top:2px}
-.tool-body{padding:0 24px 24px}
-.input-group{margin-bottom:14px}
-.input-group label{display:block;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-family:'JetBrains Mono',monospace}
-.inp{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text);padding:10px 14px;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s}
-.inp:focus{border-color:rgba(0,255,65,.4)}
-textarea.inp{resize:vertical;min-height:90px}
-.run-btn{width:100%;background:linear-gradient(135deg,#00ff41,#00cc33);color:#02040f;border:none;padding:12px;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;letter-spacing:1px;transition:opacity .2s;margin-top:4px}
-.run-btn:hover{opacity:.85}
-.run-btn:disabled{opacity:.4;cursor:not-allowed}
-.output{margin-top:14px;background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:10px;padding:14px;font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:1.7;color:rgba(255,255,255,.6);min-height:80px;max-height:220px;overflow-y:auto;white-space:pre-wrap;display:none}
-.output.show{display:block}
-.output.success{border-color:rgba(0,255,65,.3);color:#00ff41}
-.output.error{border-color:rgba(255,47,123,.2);color:var(--accent3)}
-.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(2,4,15,.3);border-top-color:#02040f;border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle;margin-right:6px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.tag{display:inline-block;font-size:.65rem;padding:3px 8px;border-radius:6px;font-family:'JetBrains Mono',monospace;margin-bottom:12px}
-.tag-cyan{background:rgba(0,255,65,.08);color:var(--accent);border:1px solid rgba(0,255,65,.2)}
-.tag-purple{background:rgba(0,204,51,.08);color:var(--accent2);border:1px solid rgba(0,204,51,.2)}
-.tag-pink{background:rgba(57,255,20,.08);color:var(--accent3);border:1px solid rgba(57,255,20,.2)}
-.tag-green{background:rgba(0,255,65,.08);color:var(--green);border:1px solid rgba(0,255,65,.2)}
-select.inp{cursor:pointer}
-</style>
-</head>
-<body>
-<div class="topbar">
-  <div class="brand">AUTO.TOOLKIT</div>
-  <a href="/" class="nav-back">← Command Center</a>
-</div>
-<div class="hero">
-  <div class="hero-badge">⚡ 6 Automation Tools</div>
-  <h1>Python <span>Automation</span> Toolkit</h1>
-  <p>Real-world automation tools built with Python. File organization, web scraping, text processing and more.</p>
-</div>
-<div class="tools-grid">
-  <div class="tool-card">
-    <div class="tool-header"><div class="tool-icon">📁</div><div class="tool-info"><h3>File Organizer</h3><p>Sort files into folders by type</p></div></div>
-    <div class="tool-body">
-      <span class="tag tag-cyan">Automation</span>
-      <div class="input-group"><label>Paste file names (one per line)</label><textarea class="inp" id="fo-input" placeholder="document.pdf&#10;photo.jpg&#10;script.py&#10;video.mp4&#10;report.docx"></textarea></div>
-      <button class="run-btn" onclick="runFileOrganizer()">▶ Organize Files</button>
-      <div class="output" id="fo-output"></div>
-    </div>
-  </div>
-  <div class="tool-card">
-    <div class="tool-header"><div class="tool-icon">🌐</div><div class="tool-info"><h3>Web Scraper</h3><p>Extract data from any URL</p></div></div>
-    <div class="tool-body">
-      <span class="tag tag-purple">Scraping</span>
-      <div class="input-group"><label>URL to scrape</label><input class="inp" id="ws-url" type="url" placeholder="https://example.com"></div>
-      <div class="input-group"><label>What to extract</label><select class="inp" id="ws-type"><option value="links">All Links</option><option value="headings">Headings (H1,H2,H3)</option><option value="images">Image URLs</option><option value="text">Page Text</option></select></div>
-      <button class="run-btn" id="ws-btn" onclick="runScraper()">▶ Scrape URL</button>
-      <div class="output" id="ws-output"></div>
-    </div>
-  </div>
-  <div class="tool-card">
-    <div class="tool-header"><div class="tool-icon">📝</div><div class="tool-info"><h3>Text Processor</h3><p>Analyze and clean any text</p></div></div>
-    <div class="tool-body">
-      <span class="tag tag-green">Analysis</span>
-      <div class="input-group"><label>Paste your text</label><textarea class="inp" id="tp-input" placeholder="Paste any text here..."></textarea></div>
-      <div class="input-group"><label>Operation</label><select class="inp" id="tp-op"><option value="stats">Word & Character Stats</option><option value="emails">Extract Emails</option><option value="phones">Extract Phone Numbers</option><option value="upper">Convert to UPPERCASE</option><option value="lower">Convert to lowercase</option><option value="clean">Clean Extra Spaces</option><option value="wordfreq">Top 10 Most Used Words</option></select></div>
-      <button class="run-btn" onclick="runTextProcessor()">▶ Process Text</button>
-      <div class="output" id="tp-output"></div>
-    </div>
-  </div>
-  <div class="tool-card">
-    <div class="tool-header"><div class="tool-icon">🔗</div><div class="tool-info"><h3>URL Health Checker</h3><p>Check if URLs are live or broken</p></div></div>
-    <div class="tool-body">
-      <span class="tag tag-cyan">Monitoring</span>
-      <div class="input-group"><label>URLs to check (one per line)</label><textarea class="inp" id="uh-input" placeholder="https://google.com&#10;https://github.com&#10;https://mahazeezy.pythonanywhere.com"></textarea></div>
-      <button class="run-btn" id="uh-btn" onclick="runURLChecker()">▶ Check URLs</button>
-      <div class="output" id="uh-output"></div>
-    </div>
-  </div>
-  <div class="tool-card">
-    <div class="tool-header"><div class="tool-icon">📊</div><div class="tool-info"><h3>CSV Analyzer</h3><p>Instant stats from CSV data</p></div></div>
-    <div class="tool-body">
-      <span class="tag tag-purple">Data Analysis</span>
-      <div class="input-group"><label>Paste CSV data</label><textarea class="inp" id="csv-input" placeholder="name,age,salary&#10;Alice,28,75000&#10;Bob,34,92000&#10;Carol,25,68000"></textarea></div>
-      <button class="run-btn" onclick="runCSVAnalyzer()">▶ Analyze CSV</button>
-      <div class="output" id="csv-output"></div>
-    </div>
-  </div>
-  <div class="tool-card">
-    <div class="tool-header"><div class="tool-icon">🔐</div><div class="tool-info"><h3>Password Generator</h3><p>Generate secure random passwords</p></div></div>
-    <div class="tool-body">
-      <span class="tag tag-pink">Security</span>
-      <div class="input-group"><label>Password Length</label><input class="inp" id="pw-length" type="number" value="16" min="8" max="64"></div>
-      <div class="input-group"><label>How Many</label><input class="inp" id="pw-count" type="number" value="5" min="1" max="20"></div>
-      <div class="input-group"><label>Strength</label><select class="inp" id="pw-strength"><option value="strong">Strong (letters + numbers + symbols)</option><option value="medium">Medium (letters + numbers)</option><option value="pin">PIN (numbers only)</option></select></div>
-      <button class="run-btn" onclick="runPasswordGen()">▶ Generate Passwords</button>
-      <div class="output" id="pw-output"></div>
-    </div>
-  </div>
-</div>
-<script>
-function runFileOrganizer(){const input=document.getElementById('fo-input').value.trim(),out=document.getElementById('fo-output');if(!input){showOutput(out,'Please enter some file names.','error');return;}const types={'Images':['jpg','jpeg','png','gif','webp','svg','bmp','ico'],'Documents':['pdf','doc','docx','txt','rtf','md'],'Spreadsheets':['csv','xlsx','xls'],'Videos':['mp4','mov','avi','mkv','wmv'],'Audio':['mp3','wav','flac','aac','m4a'],'Code':['py','js','html','css','java','cpp','ts','json','xml','php'],'Archives':['zip','rar','tar','gz','7z'],'Other':[]};const files=input.split('\n').filter(f=>f.trim()),folders={};Object.keys(types).forEach(t=>folders[t]=[]);files.forEach(file=>{const ext=file.split('.').pop().toLowerCase();let placed=false;for(const[folder,exts]of Object.entries(types)){if(folder==='Other')continue;if(exts.includes(ext)){folders[folder].push(file);placed=true;break;}}if(!placed)folders['Other'].push(file);});let result=`📁 File Organization Plan\n${'─'.repeat(35)}\n`,total=0;for(const[folder,fls]of Object.entries(folders)){if(fls.length>0){result+=`\n📂 ${folder}/ (${fls.length} file${fls.length>1?'s':''})\n`;fls.forEach(f=>{result+=`   └─ ${f}\n`;total++;});}}result+=`\n${'─'.repeat(35)}\n✅ ${total} files organized`;showOutput(out,result,'success');}
-async function runScraper(){const url=document.getElementById('ws-url').value.trim(),type=document.getElementById('ws-type').value,out=document.getElementById('ws-output'),btn=document.getElementById('ws-btn');if(!url){showOutput(out,'Please enter a URL.','error');return;}btn.innerHTML='<span class="spinner"></span>Scraping...';btn.disabled=true;try{const res=await fetch(`/scrape?url=${encodeURIComponent(url)}&type=${type}`),data=await res.json();if(data.error)showOutput(out,'❌ '+data.error,'error');else showOutput(out,data.result,'success');}catch(e){showOutput(out,'❌ Server error.','error');}btn.innerHTML='▶ Scrape URL';btn.disabled=false;}
-function runTextProcessor(){const text=document.getElementById('tp-input').value,op=document.getElementById('tp-op').value,out=document.getElementById('tp-output');if(!text.trim()){showOutput(out,'Please paste some text.','error');return;}let result='';if(op==='stats'){const words=text.trim().split(/\s+/).filter(w=>w),sentences=text.split(/[.!?]+/).filter(s=>s.trim()),chars=text.length,noSpaces=text.replace(/\s/g,'').length,readTime=Math.ceil(words.length/200);result=`📊 Text Statistics\n${'─'.repeat(30)}\nWords:      ${words.length}\nChars:      ${chars}\nNo spaces:  ${noSpaces}\nSentences:  ${sentences.length}\nRead time:  ~${readTime} min`;}else if(op==='emails'){const emails=text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g)||[];result=emails.length>0?`📧 Found ${emails.length} email(s):\n\n${emails.join('\n')}`:'📭 No emails found.';}else if(op==='phones'){const phones=text.match(/(\+?1?\s?)?(\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4})/g)||[];result=phones.length>0?`📱 Found ${phones.length} phone(s):\n\n${phones.join('\n')}`:'📵 No phones found.';}else if(op==='upper'){result=text.toUpperCase();}else if(op==='lower'){result=text.toLowerCase();}else if(op==='clean'){result=text.replace(/\s+/g,' ').trim();result=`✅ Cleaned (${text.length}→${result.length} chars):\n\n${result}`;}else if(op==='wordfreq'){const words=text.toLowerCase().match(/\b[a-z]{3,}\b/g)||[];const stop=new Set(['the','and','for','are','but','not','you','all','can','was','had','have','this','that','with','they','from','been','were','said','she','which','their','time','will','about','would','there','could','other','into','than','then','some','what','when','your','more','also','very','just','like','only','over','know','well','even','back','most']);const freq={};words.forEach(w=>{if(!stop.has(w))freq[w]=(freq[w]||0)+1;});const sorted=Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,10);result=`📊 Top 10 Words:\n\n${sorted.map(([w,c],i)=>`${i+1}. "${w}" — ${c}x`).join('\n')}`;}showOutput(out,result,'success');}
-async function runURLChecker(){const input=document.getElementById('uh-input').value.trim(),out=document.getElementById('uh-output'),btn=document.getElementById('uh-btn');if(!input){showOutput(out,'Please enter URLs.','error');return;}btn.innerHTML='<span class="spinner"></span>Checking...';btn.disabled=true;try{const res=await fetch('/check_urls',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({urls:input.split('\n').filter(u=>u.trim())})}),data=await res.json();if(data.error)showOutput(out,'❌ '+data.error,'error');else showOutput(out,data.result,'success');}catch(e){showOutput(out,'❌ Server error.','error');}btn.innerHTML='▶ Check URLs';btn.disabled=false;}
-function runCSVAnalyzer(){const input=document.getElementById('csv-input').value.trim(),out=document.getElementById('csv-output');if(!input){showOutput(out,'Please paste CSV data.','error');return;}try{const lines=input.split('\n').filter(l=>l.trim()),headers=lines[0].split(',').map(h=>h.trim()),rows=lines.slice(1).map(l=>l.split(',').map(v=>v.trim()));let result=`📊 CSV Analysis\n${'─'.repeat(35)}\nRows: ${rows.length} | Columns: ${headers.length}\nColumns: ${headers.join(', ')}\n\n`;headers.forEach((h,i)=>{const vals=rows.map(r=>r[i]).filter(v=>v),nums=vals.map(v=>parseFloat(v)).filter(v=>!isNaN(v));result+=`📌 ${h}:\n`;if(nums.length===vals.length&&nums.length>0){const sum=nums.reduce((a,b)=>a+b,0),avg=sum/nums.length;result+=`   Numeric | Min:${Math.min(...nums)} Max:${Math.max(...nums)} Avg:${avg.toFixed(2)}\n`;}else{const unique=[...new Set(vals)];result+=`   Text | ${unique.length} unique values\n`;}});result+='\n✅ Done';showOutput(out,result,'success');}catch(e){showOutput(out,'❌ Invalid CSV format.','error');}}
-function runPasswordGen(){const length=parseInt(document.getElementById('pw-length').value),count=parseInt(document.getElementById('pw-count').value),strength=document.getElementById('pw-strength').value,out=document.getElementById('pw-output');const chars={strong:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=',medium:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',pin:'0123456789'};const pool=chars[strength];const passwords=[];for(let i=0;i<count;i++){let pw='';for(let j=0;j<length;j++)pw+=pool[Math.floor(Math.random()*pool.length)];passwords.push(pw);}let result=`🔐 ${count} Password${count>1?'s':''}\n${'─'.repeat(40)}\n\n${passwords.map((pw,i)=>`${i+1}. ${pw}`).join('\n')}\n\n✅ Store these securely!`;showOutput(out,result,'success');}
-function showOutput(el,text,type){el.textContent=text;el.className='output show '+(type||'');}
-</script>
-</body>
-</html>
+from flask import Flask, request, jsonify
+import urllib.request
+from html.parser import HTMLParser
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return open("automation.html").read()
+
+@app.route("/scrape")
+def scrape():
+    url = request.args.get("url", "")
+    typ = request.args.get("type", "links")
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=8) as r:
+            html = r.read().decode("utf-8", "ignore")
+        class Parser(HTMLParser):
+            def __init__(self):
+                super().__init__()
+                self.links, self.headings, self.images, self.texts = [], [], [], []
+                self.in_tag, self.cur_tag = False, ""
+            def handle_starttag(self, tag, attrs):
+                d = dict(attrs)
+                if tag == "a" and "href" in d: self.links.append(d["href"])
+                if tag == "img" and "src" in d: self.images.append(d["src"])
+                if tag in ("h1","h2","h3"): self.in_tag = True; self.cur_tag = tag
+            def handle_endtag(self, tag):
+                if tag in ("h1","h2","h3"): self.in_tag = False
+            def handle_data(self, data):
+                if self.in_tag: self.headings.append(f"[{self.cur_tag.upper()}] {data.strip()}")
+                self.texts.append(data)
+        p = Parser(); p.feed(html)
+        if typ == "links": items = p.links[:20]; label = "Links"
+        elif typ == "headings": items = p.headings[:20]; label = "Headings"
+        elif typ == "images": items = p.images[:20]; label = "Images"
+        else: items = [" ".join(p.texts)[:500]]; label = "Text"
+        if not items: return jsonify({"result": "No " + label + " found."})
+        return jsonify({"result": f"Found {len(items)} {label}:\n\n" + "\n".join(str(i) for i in items)})
+    except Exception as ex:
+        return jsonify({"error": str(ex)})
+
+@app.route("/check_urls", methods=["POST"])
+def check_urls():
+    urls = request.json.get("urls", [])
+    results = []
+    for url in urls[:10]:
+        try:
+            url = url.strip()
+            if not url.startswith("http"): url = "https://" + url
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=5) as r:
+                results.append(f"✅ {url} — {r.status} OK")
+        except Exception as ex:
+            results.append(f"❌ {url} — {str(ex)[:50]}")
+    return jsonify({"result": "\n".join(results)})
+
+if __name__ == "__main__":
+    app.run(debug=True)
